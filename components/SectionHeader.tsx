@@ -14,14 +14,13 @@ export default function SectionHeader({
   title: string;
   description?: string;
 }) {
-  // split title into words → words into chars for clip-path stagger
   const words = title.split(" ");
 
   return (
-    <div className="mb-8 md:mb-12">
-      {/* kicker row with animated rule */}
+    <div className="mb-6 md:mb-10">
+      {/* kicker row */}
       <Reveal variant="fade">
-        <div className="flex items-center gap-4 mb-6 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">
+        <div className="flex items-center gap-4 mb-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">
           <motion.span
             initial={{ opacity: 0, scale: 0.6 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -48,8 +47,8 @@ export default function SectionHeader({
         </div>
       </Reveal>
 
-      {/* title — clip-path char reveal */}
-      <h2 className="font-display text-[clamp(2.2rem,5.6vw,4.8rem)] font-medium leading-[0.95] tracking-[-0.03em] text-ink max-w-4xl">
+      {/* title — clip-path char reveal, tighter mono scale */}
+      <h2 className="font-display text-[clamp(1.6rem,3.6vw,2.8rem)] font-medium leading-[1.05] tracking-[-0.04em] text-ink max-w-3xl">
         <span className="inline-block">
           {words.map((word, wi) => {
             const chars = word.split("");
@@ -58,30 +57,24 @@ export default function SectionHeader({
                 {chars.map((c, ci) => (
                   <motion.span
                     key={ci}
-                    initial={{
-                      opacity: 0,
-                      y: 40,
-                      clipPath: "inset(100% 0 0 0)",
-                    }}
+                    initial={{ opacity: 0, y: 18, clipPath: "inset(100% 0 0 0)" }}
                     whileInView={{
                       opacity: 1,
                       y: 0,
                       clipPath: "inset(0% 0 0 0)",
                     }}
-                    viewport={{ once: true, amount: 0.5 }}
+                    viewport={{ once: true, amount: 0.2 }}
                     transition={{
-                      duration: 0.95,
+                      duration: 0.85,
                       ease: [0.16, 1, 0.3, 1],
-                      delay: 0.04 * (wi * 6 + ci),
+                      delay: 0.025 * (wi * 6 + ci),
                     }}
                     className="inline-block"
                   >
                     {c}
                   </motion.span>
                 ))}
-                {wi < words.length - 1 && (
-                  <span className="inline-block w-[0.32em]" />
-                )}
+                {wi < words.length - 1 && <span className="inline-block w-[0.32em]" />}
               </span>
             );
           })}
@@ -90,7 +83,7 @@ export default function SectionHeader({
 
       {description && (
         <Reveal variant="rise" delay={0.1}>
-          <p className="mt-6 max-w-2xl text-[15px] md:text-base text-ink-soft leading-relaxed">
+          <p className="mt-3 max-w-2xl text-[14px] md:text-[15px] text-ink-soft leading-relaxed">
             {description}
           </p>
         </Reveal>

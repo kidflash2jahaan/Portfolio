@@ -28,7 +28,7 @@ export default function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center px-6 pt-32 pb-24"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center px-6 pt-32 pb-12"
     >
       <motion.div
         style={{ y, opacity, filter: useTransform(blur, (b) => `blur(${b})`), scale }}

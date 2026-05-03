@@ -67,7 +67,7 @@ function AwardItem({ text, index }: { text: string; index: number }) {
 
 export default function Awards() {
   return (
-    <section id="awards" className="relative px-6 py-8 md:py-12">
+    <section id="awards" className="relative px-6 py-4 md:py-6">
       <ParallaxText text="HONORS" align="right" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader

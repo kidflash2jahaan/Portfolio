@@ -18,7 +18,7 @@ export default function Vision() {
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section id="vision" className="relative px-6 py-8 md:py-12">
+    <section id="vision" className="relative px-6 py-4 md:py-6">
       <ParallaxText text="VISION" align="center" />
       <div className="mx-auto max-w-5xl">
         <SectionHeader

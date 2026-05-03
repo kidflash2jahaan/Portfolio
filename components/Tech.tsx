@@ -98,7 +98,7 @@ export default function Tech() {
   const xRight = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
-    <section id="tech" className="relative px-6 py-8 md:py-12">
+    <section id="tech" className="relative px-6 py-4 md:py-6">
       <ParallaxText text="TECHNOLOGY" align="right" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
