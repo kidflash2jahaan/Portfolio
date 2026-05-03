@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Jahaan Pardhanani — Portfolio",
   description:
     "Technologist, FRC Software Lead, classical pianist, songwriter, and live performer.",
-  metadataBase: new URL("https://jahaan.dev"),
+  metadataBase: new URL("https://systemerr.com"),
   openGraph: {
     title: "Jahaan Pardhanani",
     description:

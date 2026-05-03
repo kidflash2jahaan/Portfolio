@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 const LINES = [
-  { t: "BOOT · jahaan.dev / build 2026.05", d: 0.0 },
+  { t: "BOOT · systemerr.com / build 2026.05", d: 0.0 },
   { t: "MOUNT  /portfolio  ............  ok", d: 0.18 },
   { t: "INIT   motion engine  .........  ok", d: 0.36 },
   { t: "LOAD   geist-mono / geist-sans   ok", d: 0.54 },
