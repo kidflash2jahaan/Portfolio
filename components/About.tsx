@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { profile, stats } from "@/lib/data";
+import Counter from "./Counter";
 import GlassCard from "./GlassCard";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
@@ -31,12 +32,27 @@ export default function About() {
               <GlassCard variant="strong" tilt gleam className="p-8 md:p-12">
                 <div className="flex flex-col gap-8">
                   <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 rounded-full overflow-hidden border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,1)]">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[var(--aurora-1)] via-[var(--aurora-2)] to-[var(--aurora-4)]" />
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.08 }}
+                      transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="relative h-12 w-12 rounded-full overflow-hidden border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,1)]"
+                    >
+                      <motion.div
+                        animate={{
+                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                        }}
+                        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(135deg, var(--aurora-1), var(--aurora-2), var(--aurora-4), var(--aurora-1))",
+                          backgroundSize: "300% 300%",
+                        }}
+                        className="absolute inset-0"
+                      />
                       <div className="absolute inset-0 flex items-center justify-center font-display text-base font-semibold text-ink/80">
                         JP
                       </div>
-                    </div>
+                    </motion.div>
                     <div className="flex flex-col">
                       <span className="font-display text-lg font-medium text-ink">
                         Jahaan Pardhanani
@@ -87,18 +103,25 @@ export default function About() {
             </Reveal>
           </motion.div>
 
-          {/* stats stack */}
+          {/* stats stack — counters animate up on view, glow on hover */}
           <div className="md:col-span-5 flex flex-col gap-4">
             {stats.map((s, i) => (
               <Reveal key={s.label} variant="rise" delay={0.1 + i * 0.08}>
-                <GlassCard tilt={false} className="p-6 flex items-baseline justify-between">
-                  <span className="font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-none text-ink">
-                    {s.value}
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint text-right max-w-[12rem]">
-                    {s.label}
-                  </span>
-                </GlassCard>
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 380, damping: 22 }}
+                  data-cursor="hover"
+                >
+                  <GlassCard tilt className="p-6 flex items-baseline justify-between group">
+                    <span className="font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-none text-ink tabular-nums">
+                      <Counter value={s.value} />
+                    </span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint text-right max-w-[12rem] group-hover:text-ink transition-colors">
+                      {s.label}
+                    </span>
+                  </GlassCard>
+                </motion.div>
               </Reveal>
             ))}
           </div>
@@ -128,22 +151,24 @@ function Marquee() {
   ];
 
   return (
-    <div className="relative mt-24 overflow-hidden py-8 border-y border-ink/10">
+    <div className="relative mt-24 overflow-hidden py-8 border-y border-ink/10 group">
       <div className="absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[var(--background)] to-transparent" />
       <div className="absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[var(--background)] to-transparent" />
       <motion.div
         animate={{ x: ["0%", "-50%"] }}
         transition={{ duration: 50, ease: "linear", repeat: Infinity }}
-        className="flex gap-12 whitespace-nowrap"
+        className="flex gap-12 whitespace-nowrap [animation-play-state:running] group-hover:[animation-play-state:paused]"
       >
         {[...items, ...items, ...items].map((item, i) => (
-          <span
+          <motion.span
             key={i}
-            className="font-display text-2xl md:text-4xl font-light tracking-tight text-ink-soft"
+            whileHover={{ scale: 1.08, color: "var(--ink)" }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
+            className="font-display text-2xl md:text-4xl font-light tracking-tight text-ink-soft cursor-default"
           >
             {item}
             <span className="ml-12 text-ink-faint">✦</span>
-          </span>
+          </motion.span>
         ))}
       </motion.div>
     </div>

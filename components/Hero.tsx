@@ -39,7 +39,7 @@ export default function Hero() {
             <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
             <span className="relative inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
           </span>
-          A portfolio for university admission
+          Building, performing, leading — in real time
         </motion.div>
 
         {/* name — letter-by-letter reveal with mass */}

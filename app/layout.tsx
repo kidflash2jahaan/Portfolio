@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,17 +14,17 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz", "SOFT", "WONK"],
+  axes: ["opsz", "wdth"],
 });
 
 export const metadata: Metadata = {
   title: "Jahaan Pardhanani — Portfolio",
   description:
-    "Technologist, FRC Software Lead, classical pianist, songwriter, and live performer. A portfolio for university admission.",
+    "Technologist, FRC Software Lead, classical pianist, songwriter, and live performer.",
   metadataBase: new URL("https://jahaan.dev"),
   openGraph: {
     title: "Jahaan Pardhanani",
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col selection:bg-ink selection:text-white">
         {children}

@@ -55,7 +55,7 @@ export default function Vision() {
                   <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">
                     Signed
                   </div>
-                  <div className="font-display text-2xl font-light italic text-ink">
+                  <div className="font-display text-2xl font-medium tracking-tight text-ink">
                     — Jahaan
                   </div>
                 </div>

@@ -12,7 +12,7 @@
   --color-aurora-2: var(--aurora-2);
   --color-aurora-3: var(--aurora-3);
   --color-aurora-4: var(--aurora-4);
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-bricolage);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -50,9 +50,10 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-fraunces), "Times New Roman", serif;
-  font-feature-settings: "ss01", "ss03", "salt";
-  letter-spacing: -0.025em;
+  font-family: var(--font-bricolage), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "ss01", "ss02", "cv11";
+  font-variation-settings: "wdth" 100, "opsz" 24;
+  letter-spacing: -0.028em;
 }
 
 .font-mono {
