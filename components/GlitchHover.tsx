@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 
-const POOL = "█▓▒░◇◆⬡⬢+✦✧#@%&$!?*=<>≡≣≢≠≈/\\|0123456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+// ASCII-only pool — Unicode block chars (█▓▒░◇◆⬡⬢) have non-uniform widths in
+// proportional fonts and were causing line wrapping changes mid-scramble. These
+// chars stay close to typical letter widths so layout doesn't reflow.
+const POOL =
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*+=<>/\\?";
 
 /**
  * Global text-scramble effect for any element marked as a cursor target.
@@ -28,6 +32,16 @@ export default function GlitchHover() {
     const active = new Map<HTMLElement, Job>();
 
     const scramble = (root: HTMLElement): Job => {
+      // lock the root's dimensions so character-width variance can't reflow
+      // its lines or change its height during the scramble.
+      const rect = root.getBoundingClientRect();
+      const prevHeight = root.style.height;
+      const prevMinHeight = root.style.minHeight;
+      const prevOverflow = root.style.overflow;
+      root.style.height = `${rect.height}px`;
+      root.style.minHeight = `${rect.height}px`;
+      root.style.overflow = "hidden";
+
       const items: { node: Text; original: string }[] = [];
       let totalChars = 0;
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -60,6 +74,9 @@ export default function GlitchHover() {
         for (const { node, original } of items) {
           if (node.parentNode) node.nodeValue = original;
         }
+        root.style.height = prevHeight;
+        root.style.minHeight = prevMinHeight;
+        root.style.overflow = prevOverflow;
       };
 
       const cancel = () => {

@@ -15,6 +15,7 @@ import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import ScanLine from "./ScanLine";
 import SectionHeader from "./SectionHeader";
+import StackedMarquee from "./StackedMarquee";
 
 function StackBadge({ label, index }: { label: string; index: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -106,6 +107,38 @@ export default function Tech() {
           kicker="Technology, robotics & AI"
           title={technology.headline}
           description="Nine years writing code. Two years training neural networks. One season leading the software for a competition robot. The work is detailed below."
+        />
+
+        <StackedMarquee
+          rows={[
+            [
+              "import wpilib",
+              "VEL ↑ 41.2 rps",
+              "TARGET LOCKED",
+              "kP=0.42 kI=0.001",
+              "PID stable",
+              "auto routine 03",
+              "cmd: shoot()",
+            ],
+            [
+              "FRC 2026 SEASON",
+              "DISTRICT LA",
+              "MISSION VIEJO",
+              "Phoenix 6",
+              "swerve drive",
+              "OUTSTANDING ACHIEVEMENT",
+              "OCSEF 71",
+            ],
+            [
+              "tensor[256, 256, 3]",
+              "epoch 14/50",
+              "loss 0.0341",
+              "acc 0.984",
+              "transfer learn",
+              "augment ✓",
+              "early stop",
+            ],
+          ]}
         />
 
         {/* Highlights — alternating offset grid */}

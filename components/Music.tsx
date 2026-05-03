@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { music } from "@/lib/data";
+import AudioBars from "./AudioBars";
 import GlassCard from "./GlassCard";
 import Magnetic from "./Magnetic";
 import ParallaxText from "./ParallaxText";
@@ -40,6 +41,12 @@ export default function Music() {
                   <span>Congressional record</span>
                   <span className="h-px w-8 bg-ink/15" />
                   <span>June 21, 2024</span>
+                </div>
+                <div className="mt-6 flex items-center gap-4">
+                  <AudioBars count={28} className="w-40" />
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-faint">
+                    LIVE · BPM 116 · KEY Em
+                  </div>
                 </div>
               </div>
             </div>

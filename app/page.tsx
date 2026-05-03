@@ -2,6 +2,7 @@ import About from "@/components/About";
 import Awards from "@/components/Awards";
 import Background from "@/components/Background";
 import Cursor from "@/components/Cursor";
+import CursorTrail from "@/components/CursorTrail";
 import Footer from "@/components/Footer";
 import GlitchHover from "@/components/GlitchHover";
 import Hero from "@/components/Hero";
@@ -24,6 +25,7 @@ export default function Home() {
       <Background />
       <ScrollHueLayer />
       <Particles />
+      <CursorTrail />
       <Cursor />
       <Ripples />
       <GlitchHover />
