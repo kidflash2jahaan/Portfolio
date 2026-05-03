@@ -4,7 +4,6 @@ import Background from "@/components/Background";
 import Cursor from "@/components/Cursor";
 import CursorTrail from "@/components/CursorTrail";
 import Footer from "@/components/Footer";
-import GlitchHover from "@/components/GlitchHover";
 import Hero from "@/components/Hero";
 import Music from "@/components/Music";
 import Nav from "@/components/Nav";
@@ -28,7 +27,6 @@ export default function Home() {
       <CursorTrail />
       <Cursor />
       <Ripples />
-      <GlitchHover />
       <Nav />
       <SideRail />
       <ScrollReadout />
