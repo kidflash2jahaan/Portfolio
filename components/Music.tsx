@@ -96,29 +96,29 @@ export default function Music() {
               In the listening rotation
             </div>
           </Reveal>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-4">
-            {music.influences.map((name, i) => (
-              <motion.div
-                key={name}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ delay: i * 0.04, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ x: 6 }}
-                data-cursor="hover"
-                className="group relative overflow-hidden cursor-default"
-              >
-                <div className="font-display text-lg md:text-xl font-light text-ink/80 group-hover:text-ink transition-colors">
-                  <Scramble text={name} duration={500} />
-                </div>
-                <motion.div
-                  initial={{ scaleX: 0.2 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="h-px bg-gradient-to-r from-ink/10 via-ink/40 to-ink/10 mt-2 origin-left"
-                />
-              </motion.div>
-            ))}
+          <div className="relative overflow-hidden border-y border-ink/10 py-5 group">
+            <div className="absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[var(--background)] to-transparent" />
+            <div className="absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[var(--background)] to-transparent" />
+            <motion.div
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ duration: 38, ease: "linear", repeat: Infinity }}
+              className="flex gap-10 whitespace-nowrap"
+            >
+              {[...music.influences, ...music.influences, ...music.influences].map(
+                (name, i) => (
+                  <motion.span
+                    key={i}
+                    whileHover={{ scale: 1.08, color: "var(--ink)" }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    data-cursor="hover"
+                    className="font-display text-xl md:text-2xl font-medium tracking-tight text-ink-soft"
+                  >
+                    <Scramble text={name} duration={420} />
+                    <span className="ml-10 text-ink-faint">◇</span>
+                  </motion.span>
+                )
+              )}
+            </motion.div>
           </div>
         </div>
 

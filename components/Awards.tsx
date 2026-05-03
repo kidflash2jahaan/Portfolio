@@ -18,12 +18,48 @@ function AwardItem({ text, index }: { text: string; index: number }) {
       data-cursor="hover"
       className="group flex gap-3 text-[14.5px] leading-[1.6] text-ink-soft cursor-default"
     >
-      <motion.span
-        initial={{ width: "16px" }}
-        whileHover={{ width: "44px" }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-2 h-px flex-shrink-0 bg-ink/30 group-hover:bg-ink"
-      />
+      {/* check stamp — draws in on view */}
+      <motion.svg
+        viewBox="0 0 14 14"
+        width="14"
+        height="14"
+        className="flex-shrink-0 mt-1.5 text-ink/50 group-hover:text-ink transition-colors"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.6 }}
+      >
+        <motion.circle
+          cx="7"
+          cy="7"
+          r="5.5"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          fill="none"
+          variants={{
+            hidden: { pathLength: 0, opacity: 0 },
+            visible: {
+              pathLength: 1,
+              opacity: 1,
+              transition: { duration: 0.6, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] },
+            },
+          }}
+        />
+        <motion.path
+          d="M3.8 7.2 L6.2 9.4 L10.4 4.8"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+          variants={{
+            hidden: { pathLength: 0 },
+            visible: {
+              pathLength: 1,
+              transition: { duration: 0.45, delay: index * 0.04 + 0.4, ease: [0.16, 1, 0.3, 1] },
+            },
+          }}
+        />
+      </motion.svg>
       <span className="group-hover:text-ink transition-colors">{text}</span>
     </motion.li>
   );
