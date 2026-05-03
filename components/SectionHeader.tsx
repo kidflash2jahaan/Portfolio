@@ -18,7 +18,7 @@ export default function SectionHeader({
   const words = title.split(" ");
 
   return (
-    <div className="mb-16 md:mb-24">
+    <div className="mb-8 md:mb-12">
       {/* kicker row with animated rule */}
       <Reveal variant="fade">
         <div className="flex items-center gap-4 mb-6 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">

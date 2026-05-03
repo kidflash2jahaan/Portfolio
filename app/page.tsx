@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Music from "@/components/Music";
 import Nav from "@/components/Nav";
+import PageCurtain from "@/components/PageCurtain";
 import Particles from "@/components/Particles";
 import Ripples from "@/components/Ripples";
 import ScrollHueLayer from "@/components/ScrollHueLayer";
@@ -17,6 +18,7 @@ import Vision from "@/components/Vision";
 export default function Home() {
   return (
     <>
+      <PageCurtain />
       <Background />
       <ScrollHueLayer />
       <Particles />

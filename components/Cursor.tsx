@@ -6,7 +6,6 @@ import {
   motion,
   useMotionValue,
   useSpring,
-  useTransform,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,50 +14,35 @@ type Burst = { id: number; x: number; y: number };
 
 /**
  * Liquid glass cursor.
- *  - Free state: a translucent blob that stretches in the direction of motion,
- *    with a smaller satellite trailing behind.
+ *  - Free state: a translucent blob that stretches and rotates with cursor
+ *    velocity, with a smaller satellite trailing behind.
  *  - Snap state: when hovering interactive elements, the blob morphs into a
- *    rounded halo perfectly framing the target.
+ *    halo around the target. Stretch and rotation are immediately animated
+ *    back to neutral and frozen so cursor movement inside the target cannot
+ *    drive the blob into a spin.
  *  - Click: emits a radial burst of glass droplets.
- *
- * Glitch fix:
- *  - Position is always driven by a single pair of motion values (tx/ty) which
- *    smoothly tween between the snap target's center and the live cursor —
- *    so leaving a snapped element no longer "jumps."
- *  - Velocity-derived stretch is multiplied by a freeFactor that animates to 0
- *    when entering snap and back to 1 when leaving, so the stretch dampens
- *    smoothly instead of snapping away.
  */
 export default function Cursor() {
-  // raw pointer position
+  // raw pointer
   const px = useMotionValue(-400);
   const py = useMotionValue(-400);
 
-  // single source of truth for where the blob is heading.
-  // Either tracks the cursor (free) or the snap target's center.
+  // single source target for the blob — either cursor position or snap centre.
+  // The bx/by springs lerp to it, so leaving a snap is smooth.
   const tx = useMotionValue(-400);
   const ty = useMotionValue(-400);
 
-  // smoothed positions
-  const bx = useSpring(tx, { stiffness: 600, damping: 32, mass: 0.5 });
-  const by = useSpring(ty, { stiffness: 600, damping: 32, mass: 0.5 });
+  const bx = useSpring(tx, { stiffness: 700, damping: 40, mass: 0.4 });
+  const by = useSpring(ty, { stiffness: 700, damping: 40, mass: 0.4 });
 
-  // satellite — much lazier spring, lava-lamp feel
+  // satellite — much lazier
   const stx = useSpring(tx, { stiffness: 110, damping: 18, mass: 0.7 });
   const sty = useSpring(ty, { stiffness: 110, damping: 18, mass: 0.7 });
 
-  // raw velocity-driven stretch values
-  const rawSX = useMotionValue(1);
-  const rawSY = useMotionValue(1);
-  const rawRot = useMotionValue(0);
-
-  // freeFactor — 1 when free-floating, 0 when snapped. Animates between.
-  const freeFactor = useMotionValue(1);
-
-  // effective values: only stretch when free
-  const effSX = useTransform([rawSX, freeFactor], ([s, f]) => 1 + ((s as number) - 1) * (f as number));
-  const effSY = useTransform([rawSY, freeFactor], ([s, f]) => 1 + ((s as number) - 1) * (f as number));
-  const effRot = useTransform([rawRot, freeFactor], ([r, f]) => (r as number) * (f as number));
+  // velocity-driven shape values
+  const sx = useMotionValue(1);
+  const sy = useMotionValue(1);
+  const rot = useMotionValue(0);
 
   const [snap, setSnap] = useState<Snap>(null);
   const [pressed, setPressed] = useState(false);
@@ -66,15 +50,20 @@ export default function Cursor() {
   const burstId = useRef(0);
   const snapRef = useRef<Snap>(null);
 
-  // smoothly animate freeFactor when snap state changes
+  // when snap engages, slam stretch/rotation back to neutral fast.
+  // when snap releases, leave them alone — the next mousemove will pick up
+  // velocity and they'll drive naturally from there.
   useEffect(() => {
-    const target = snap ? 0 : 1;
-    const ctrl = animate(freeFactor, target, {
-      duration: 0.32,
-      ease: [0.22, 1, 0.36, 1],
-    });
-    return () => ctrl.stop();
-  }, [snap, freeFactor]);
+    if (!snap) return;
+    const a1 = animate(sx, 1, { duration: 0.18, ease: [0.22, 1, 0.36, 1] });
+    const a2 = animate(sy, 1, { duration: 0.18, ease: [0.22, 1, 0.36, 1] });
+    const a3 = animate(rot, 0, { duration: 0.18, ease: [0.22, 1, 0.36, 1] });
+    return () => {
+      a1.stop();
+      a2.stop();
+      a3.stop();
+    };
+  }, [snap, sx, sy, rot]);
 
   useEffect(() => {
     const isCoarse =
@@ -98,13 +87,25 @@ export default function Cursor() {
       lastY = e.clientY;
       lastT = now;
 
-      const speed = Math.hypot(vx, vy);
-      const s = Math.min(1 + speed * 0.55, 2.4);
-      rawSX.set(s);
-      rawSY.set(Math.max(0.55, 1 / Math.sqrt(s)));
-      if (speed > 0.05) rawRot.set((Math.atan2(vy, vx) * 180) / Math.PI);
+      // velocity-driven shape ONLY when not snapped — prevents spin while
+      // hovering inside an interactive target.
+      if (!snapRef.current) {
+        const speed = Math.hypot(vx, vy);
+        const s = Math.min(1 + speed * 0.5, 2.2);
+        sx.set(s);
+        sy.set(Math.max(0.6, 1 / Math.sqrt(s)));
+        if (speed > 0.06) {
+          // smooth angle wrap to avoid 179° → -179° flips
+          const next = (Math.atan2(vy, vx) * 180) / Math.PI;
+          const cur = rot.get();
+          let delta = next - cur;
+          while (delta > 180) delta -= 360;
+          while (delta < -180) delta += 360;
+          rot.set(cur + delta);
+        }
+      }
 
-      // find a snap target under the cursor
+      // snap detection
       const el = e.target as HTMLElement | null;
       const target = el?.closest(
         'a, button, [role="button"], [data-cursor="hover"], [data-cursor="cta"]'
@@ -120,15 +121,14 @@ export default function Cursor() {
           h: r.height + 16,
           r: Math.max(radius + 4, 14),
         };
-        // only re-render setSnap if the target changed; updates to existing
-        // target's bounds get reflected via tx/ty without a setState churn
         const prev = snapRef.current;
-        if (
-          !prev ||
-          Math.abs(prev.w - next.w) > 0.5 ||
-          Math.abs(prev.h - next.h) > 0.5 ||
-          prev.r !== next.r
-        ) {
+        const sameTarget =
+          prev &&
+          Math.abs(prev.cx - next.cx) < 2 &&
+          Math.abs(prev.cy - next.cy) < 2 &&
+          Math.abs(prev.w - next.w) < 2 &&
+          Math.abs(prev.h - next.h) < 2;
+        if (!sameTarget) {
           snapRef.current = next;
           setSnap(next);
         }
@@ -164,11 +164,11 @@ export default function Cursor() {
       window.removeEventListener("mouseup", up);
       document.documentElement.style.cursor = "";
     };
-  }, [px, py, tx, ty, rawSX, rawSY, rawRot]);
+  }, [px, py, tx, ty, sx, sy, rot]);
 
   return (
     <>
-      {/* satellite — lazy follower, fades in the snap state */}
+      {/* satellite — lazy follower, fades in snap state */}
       <motion.div
         aria-hidden
         animate={{ opacity: snap ? 0 : 0.7, scale: pressed ? 0.4 : 1 }}
@@ -179,16 +179,10 @@ export default function Cursor() {
         <div className="h-3 w-3 rounded-full bg-gradient-to-br from-white/70 to-white/30 backdrop-blur-md border border-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,1)] mix-blend-multiply" />
       </motion.div>
 
-      {/* main blob — single style source, no snap-state position swap */}
+      {/* main blob */}
       <motion.div
         aria-hidden
-        style={{
-          x: bx,
-          y: by,
-          scaleX: effSX,
-          scaleY: effSY,
-          rotate: effRot,
-        }}
+        style={{ x: bx, y: by, scaleX: sx, scaleY: sy, rotate: rot }}
         animate={
           snap
             ? {
@@ -206,8 +200,8 @@ export default function Cursor() {
         }
         transition={{
           type: "spring",
-          stiffness: snap ? 380 : 700,
-          damping: snap ? 32 : 28,
+          stiffness: snap ? 420 : 700,
+          damping: snap ? 36 : 28,
           mass: 0.5,
         }}
         className="pointer-events-none fixed left-0 top-0 z-[200] -translate-x-1/2 -translate-y-1/2 mix-blend-multiply"
@@ -227,7 +221,7 @@ export default function Cursor() {
         />
       </motion.div>
 
-      {/* center dot — sharp pointer reference, fades when snapped */}
+      {/* center dot */}
       <motion.div
         aria-hidden
         animate={{ opacity: snap ? 0 : 1, scale: pressed ? 0.4 : 1 }}
@@ -238,7 +232,7 @@ export default function Cursor() {
         <div className="h-1.5 w-1.5 rounded-full bg-ink" />
       </motion.div>
 
-      {/* click bursts — radial droplets */}
+      {/* click bursts */}
       <div className="pointer-events-none fixed inset-0 z-[199]">
         <AnimatePresence>
           {bursts.map((b) =>

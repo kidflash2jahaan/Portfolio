@@ -18,7 +18,7 @@ export default function About() {
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section id="about" className="relative px-6 py-16 md:py-24">
+    <section id="about" className="relative px-6 py-8 md:py-12">
       <ParallaxText text="PORTRAIT" align="left" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader

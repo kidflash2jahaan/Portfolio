@@ -13,6 +13,7 @@ import { technology } from "@/lib/data";
 import GlassCard from "./GlassCard";
 import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
+import ScanLine from "./ScanLine";
 import SectionHeader from "./SectionHeader";
 
 function StackBadge({ label, index }: { label: string; index: number }) {
@@ -97,7 +98,7 @@ export default function Tech() {
   const xRight = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
-    <section id="tech" className="relative px-6 py-16 md:py-24">
+    <section id="tech" className="relative px-6 py-8 md:py-12">
       <ParallaxText text="TECHNOLOGY" align="right" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
@@ -123,6 +124,7 @@ export default function Tech() {
                   data-cursor="hover"
                 >
                   <GlassCard tilt className="p-7 md:p-8 h-full group">
+                    <ScanLine delay={i * 0.1} />
                     <div className="flex items-start justify-between gap-4 mb-5">
                       <div>
                         <div className="font-display text-2xl md:text-[26px] font-medium leading-tight text-ink">

@@ -237,6 +237,38 @@ body {
   background: linear-gradient(90deg, transparent, rgba(12, 12, 14, 0.15), transparent);
 }
 
+/* Glitch flash — fires once when an interactive element is hovered.
+   Affects every text-bearing descendant via text-shadow only (no layout shift). */
+@keyframes glitch-flash {
+  0%   { text-shadow: none; }
+  12%  { text-shadow: 1.5px 0 #ff4f9e, -1.5px 0 #4faaff; }
+  26%  { text-shadow: -2px 0 #4fffae, 2px 0 #c84fff; }
+  40%  { text-shadow: 1px 0 #ff4f9e, -1px 0 #4faaff; }
+  55%  { text-shadow: -0.5px 0 #4fffae, 0.5px 0 #c84fff; }
+  72%  { text-shadow: 0.5px 0 rgba(12,12,14,0.4); }
+  100% { text-shadow: none; }
+}
+
+[data-cursor="hover"]:hover,
+[data-cursor="hover"]:hover :is(h1, h2, h3, h4, h5, h6, p, li, span, a, button),
+[data-cursor="cta"]:hover,
+[data-cursor="cta"]:hover :is(h1, h2, h3, h4, h5, h6, p, li, span, a, button) {
+  animation: glitch-flash 0.55s ease-out 1;
+}
+
+/* Allow text selection across the site. The custom cursor doesn't prevent
+   selection, but we explicitly opt back in for everything. */
+* {
+  -webkit-user-select: text;
+          user-select: text;
+}
+
+/* But not on the cursor / particle / ripple decorations themselves. */
+.pointer-events-none {
+  -webkit-user-select: none;
+          user-select: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

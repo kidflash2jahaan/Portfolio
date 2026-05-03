@@ -3,12 +3,14 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { profile } from "@/lib/data";
+import Confetti, { type ConfettiHandle } from "./Confetti";
 import GlassCard from "./GlassCard";
 import Magnetic from "./Magnetic";
 import Reveal from "./Reveal";
 
 export default function Footer() {
   const ref = useRef<HTMLElement>(null);
+  const confettiRef = useRef<ConfettiHandle>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end end"],
@@ -18,7 +20,8 @@ export default function Footer() {
   const letterOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.4, 1]);
 
   return (
-    <footer id="contact" ref={ref} className="relative px-6 pt-16 pb-12 mt-12">
+    <footer id="contact" ref={ref} className="relative px-6 pt-12 pb-10">
+      <Confetti ref={confettiRef} />
       <div className="mx-auto max-w-7xl">
         <Reveal variant="rise">
           <GlassCard variant="strong" gleam tilt={false} className="p-10 md:p-16 text-center">
@@ -46,6 +49,7 @@ export default function Footer() {
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 320, damping: 18 }}
                   href={`mailto:${profile.email}`}
+                  onClick={(e) => confettiRef.current?.fire(e.clientX, e.clientY)}
                   data-cursor="cta"
                   data-cursor-label="Write"
                   className="group relative overflow-hidden inline-flex items-center gap-2 rounded-full bg-ink text-white px-7 py-3.5 text-sm font-medium"

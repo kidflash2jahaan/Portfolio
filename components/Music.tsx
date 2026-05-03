@@ -11,7 +11,7 @@ import SectionHeader from "./SectionHeader";
 
 export default function Music() {
   return (
-    <section id="music" className="relative px-6 py-16 md:py-24">
+    <section id="music" className="relative px-6 py-8 md:py-12">
       <ParallaxText text="MUSIC" align="left" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
