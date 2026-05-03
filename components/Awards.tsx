@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { awards, leadership } from "@/lib/data";
 import GlassCard from "./GlassCard";
+import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
 
@@ -30,7 +31,8 @@ function AwardItem({ text, index }: { text: string; index: number }) {
 
 export default function Awards() {
   return (
-    <section id="awards" className="relative px-6 py-32 md:py-44">
+    <section id="awards" className="relative px-6 py-16 md:py-24">
+      <ParallaxText text="HONORS" align="right" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           index="04"

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { profile, stats } from "@/lib/data";
 import Counter from "./Counter";
 import GlassCard from "./GlassCard";
+import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
 
@@ -17,7 +18,8 @@ export default function About() {
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section id="about" className="relative px-6 py-32 md:py-44">
+    <section id="about" className="relative px-6 py-16 md:py-24">
+      <ParallaxText text="PORTRAIT" align="left" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           index="01"
@@ -129,7 +131,9 @@ export default function About() {
 
         {/* marquee — running tag of attributes */}
         <Reveal variant="fade" delay={0.4}>
-          <Marquee />
+          <div className="mt-12">
+            <Marquee />
+          </div>
         </Reveal>
       </div>
     </section>
@@ -151,7 +155,7 @@ function Marquee() {
   ];
 
   return (
-    <div className="relative mt-24 overflow-hidden py-8 border-y border-ink/10 group">
+    <div className="relative overflow-hidden py-6 border-y border-ink/10 group">
       <div className="absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[var(--background)] to-transparent" />
       <div className="absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[var(--background)] to-transparent" />
       <motion.div

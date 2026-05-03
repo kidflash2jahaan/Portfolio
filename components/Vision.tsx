@@ -4,7 +4,9 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { vision } from "@/lib/data";
 import GlassCard from "./GlassCard";
+import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
+import ScrollWords from "./ScrollWords";
 import SectionHeader from "./SectionHeader";
 
 export default function Vision() {
@@ -16,7 +18,8 @@ export default function Vision() {
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <section id="vision" className="relative px-6 py-32 md:py-44">
+    <section id="vision" className="relative px-6 py-16 md:py-24">
+      <ParallaxText text="VISION" align="center" />
       <div className="mx-auto max-w-5xl">
         <SectionHeader
           index="05"
@@ -29,24 +32,15 @@ export default function Vision() {
             <GlassCard variant="strong" tilt gleam className="p-10 md:p-16">
               <div className="space-y-6">
                 {vision.paragraphs.map((p, i) => (
-                  <motion.p
+                  <ScrollWords
                     key={i}
-                    initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{
-                      duration: 1,
-                      ease: [0.16, 1, 0.3, 1],
-                      delay: i * 0.15,
-                    }}
+                    text={p}
                     className={
                       i === 0
-                        ? "font-display text-[clamp(1.4rem,2.6vw,2rem)] font-light leading-[1.4] tracking-[-0.015em] text-ink"
+                        ? "font-display text-[clamp(1.3rem,2.4vw,1.85rem)] font-medium leading-[1.45] tracking-[-0.02em] text-ink"
                         : "text-[16px] md:text-[17px] leading-[1.8] text-ink-soft"
                     }
-                  >
-                    {p}
-                  </motion.p>
+                  />
                 ))}
               </div>
 

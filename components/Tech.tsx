@@ -11,6 +11,7 @@ import {
 import { useRef, useState } from "react";
 import { technology } from "@/lib/data";
 import GlassCard from "./GlassCard";
+import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
 
@@ -96,7 +97,8 @@ export default function Tech() {
   const xRight = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
   return (
-    <section id="tech" className="relative px-6 py-32 md:py-44">
+    <section id="tech" className="relative px-6 py-16 md:py-24">
+      <ParallaxText text="TECHNOLOGY" align="right" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           index="02"

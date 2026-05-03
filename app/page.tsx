@@ -8,7 +8,9 @@ import Music from "@/components/Music";
 import Nav from "@/components/Nav";
 import Particles from "@/components/Particles";
 import Ripples from "@/components/Ripples";
+import ScrollHueLayer from "@/components/ScrollHueLayer";
 import ScrollReadout from "@/components/ScrollReadout";
+import ScrollToTop from "@/components/ScrollToTop";
 import Tech from "@/components/Tech";
 import Vision from "@/components/Vision";
 
@@ -16,11 +18,13 @@ export default function Home() {
   return (
     <>
       <Background />
+      <ScrollHueLayer />
       <Particles />
       <Cursor />
       <Ripples />
       <Nav />
       <ScrollReadout />
+      <ScrollToTop />
       <main className="relative">
         <Hero />
         <About />

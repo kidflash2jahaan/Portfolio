@@ -7,6 +7,7 @@ import {
   useTransform,
 } from "motion/react";
 import { useEffect, useRef } from "react";
+import LiveClock from "./LiveClock";
 import { profile } from "@/lib/data";
 
 const NAME = "Jahaan Pardhanani";
@@ -132,10 +133,9 @@ export default function Hero() {
         initial={{ opacity: 0, x: 10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 0.6 }}
-        className="absolute right-6 top-28 hidden md:flex flex-col gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-faint text-right"
+        className="absolute right-6 top-28 hidden md:block"
       >
-        <span>33.7°N · 117.7°W</span>
-        <span>North Tustin, CA</span>
+        <LiveClock />
       </motion.div>
     </section>
   );

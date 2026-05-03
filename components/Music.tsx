@@ -4,13 +4,15 @@ import { motion } from "motion/react";
 import { music } from "@/lib/data";
 import GlassCard from "./GlassCard";
 import Magnetic from "./Magnetic";
+import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import Scramble from "./Scramble";
 import SectionHeader from "./SectionHeader";
 
 export default function Music() {
   return (
-    <section id="music" className="relative px-6 py-32 md:py-44">
+    <section id="music" className="relative px-6 py-16 md:py-24">
+      <ParallaxText text="MUSIC" align="left" />
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           index="03"
