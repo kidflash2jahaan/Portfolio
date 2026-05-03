@@ -22,7 +22,7 @@ export default function ScrollWords({
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.85", "start 0.25"],
+    offset: ["start 0.92", "start 0.65"],
   });
 
   const words = text.split(" ");
