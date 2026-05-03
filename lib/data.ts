@@ -15,7 +15,6 @@ export const profile = {
 export const stats = [
   { value: "9+", label: "Years coding" },
   { value: "30+", label: "Live performances" },
-  { value: "188+", label: "Hours certified ML/AI study" },
   { value: "L9", label: "MTAC Certificate of Merit" },
 ];
 

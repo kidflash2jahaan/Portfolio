@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * Odometer-style boot tick. When the value scrolls into view, the digits
@@ -8,14 +8,22 @@ import { useEffect, useRef, useState } from "react";
  * to the real number. Non-numeric prefixes/suffixes are preserved.
  */
 export default function Counter({ value }: { value: string }) {
-  const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
+  // Memoize so re-renders don't churn a fresh RegExpMatchArray that would
+  // make the parsed parts look "new" to the effect's dep array. Without
+  // this, every setDisplay restart the tick from scratch and the numbers
+  // never converge.
+  const parts = useMemo(() => {
+    const m = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
+    return m ? { number: m[1], suffix: m[2] ?? "" } : null;
+  }, [value]);
   const ref = useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = useState<string>(match ? scrambleDigits(match[1]) : value);
+  const [display, setDisplay] = useState<string>(
+    parts ? scrambleDigits(parts.number) : value
+  );
 
   useEffect(() => {
-    if (!match) return;
-    const number = match[1];
-    const suffix = match[2] ?? "";
+    if (!parts) return;
+    const { number, suffix } = parts;
     let raf = 0;
     let done = false;
     let started = false;
@@ -66,9 +74,9 @@ export default function Counter({ value }: { value: string }) {
       cancelAnimationFrame(raf);
       obs.disconnect();
     };
-  }, [match]);
+  }, [parts]);
 
-  if (!match) return <span ref={ref}>{value}</span>;
+  if (!parts) return <span ref={ref}>{value}</span>;
   return <span ref={ref}>{display}</span>;
 }
 
