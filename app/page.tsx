@@ -9,6 +9,7 @@ import Music from "@/components/Music";
 import Nav from "@/components/Nav";
 import PageCurtain from "@/components/PageCurtain";
 import Particles from "@/components/Particles";
+import PulseRings from "@/components/PulseRings";
 import Ripples from "@/components/Ripples";
 import ScrollHueLayer from "@/components/ScrollHueLayer";
 import ScrollReadout from "@/components/ScrollReadout";
@@ -22,6 +23,7 @@ export default function Home() {
       <PageCurtain />
       <Background />
       <ScrollHueLayer />
+      <PulseRings />
       <Particles />
       <CursorTrail />
       <Cursor />

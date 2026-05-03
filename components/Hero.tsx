@@ -8,6 +8,7 @@ import {
 } from "motion/react";
 import { useEffect, useRef } from "react";
 import LiveClock from "./LiveClock";
+import Magnetic from "./Magnetic";
 import { profile } from "@/lib/data";
 
 const NAME = "Jahaan Pardhanani";
@@ -143,13 +144,16 @@ export default function Hero() {
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <motion.span
-      whileHover={{ y: -2, scale: 1.04 }}
-      transition={{ type: "spring", stiffness: 320, damping: 18 }}
-      className="glass-subtle rounded-full px-3 py-1.5 cursor-default"
-    >
-      {children}
-    </motion.span>
+    <Magnetic strength={0.32} range={120}>
+      <motion.span
+        whileHover={{ y: -2, scale: 1.04 }}
+        transition={{ type: "spring", stiffness: 320, damping: 18 }}
+        data-cursor="hover"
+        className="glass-subtle rounded-full px-3 py-1.5 cursor-default inline-block"
+      >
+        {children}
+      </motion.span>
+    </Magnetic>
   );
 }
 
