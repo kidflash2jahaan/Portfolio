@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import Reveal from "./Reveal";
+import SectionBoot from "./SectionBoot";
 
 export default function SectionHeader({
   index,
@@ -18,6 +19,8 @@ export default function SectionHeader({
 
   return (
     <div className="mb-6 md:mb-10">
+      <SectionBoot index={index} label={kicker.toUpperCase()} />
+
       {/* kicker row */}
       <Reveal variant="fade">
         <div className="flex items-center gap-4 mb-3 font-mono text-[11px] uppercase tracking-[0.22em] text-ink-faint">

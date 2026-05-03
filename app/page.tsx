@@ -13,7 +13,6 @@ import Ripples from "@/components/Ripples";
 import ScrollHueLayer from "@/components/ScrollHueLayer";
 import ScrollReadout from "@/components/ScrollReadout";
 import ScrollToTop from "@/components/ScrollToTop";
-import SideRail from "@/components/SideRail";
 import Tech from "@/components/Tech";
 import Vision from "@/components/Vision";
 
@@ -28,7 +27,6 @@ export default function Home() {
       <Cursor />
       <Ripples />
       <Nav />
-      <SideRail />
       <ScrollReadout />
       <ScrollToTop />
       <main className="relative">

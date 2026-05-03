@@ -1,46 +1,84 @@
 "use client";
 
-import { animate, useInView, useMotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Counts up from 0 to `to` when scrolled into view. Preserves any non-numeric
- * suffix (like "+", "L9") by extracting the number out of `value`.
+ * Odometer-style boot tick. When the value scrolls into view, the digits
+ * cycle through random values for ~700ms before locking in right-to-left
+ * to the real number. Non-numeric prefixes/suffixes are preserved.
  */
 export default function Counter({ value }: { value: string }) {
   const match = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  const mv = useMotionValue(0);
-  const [display, setDisplay] = useState<string>(match ? "0" : value);
+  const [display, setDisplay] = useState<string>(match ? scrambleDigits(match[1]) : value);
 
   useEffect(() => {
-    if (!inView || !match) return;
-    const target = parseFloat(match[1]);
-    const controls = animate(mv, target, {
-      duration: 1.6,
-      ease: [0.16, 1, 0.3, 1],
-    });
-    const unsub = mv.on("change", (v) => {
-      const formatted = Number.isInteger(target)
-        ? Math.round(v).toString()
-        : v.toFixed(1);
-      setDisplay(formatted);
-    });
+    if (!match) return;
+    const number = match[1];
+    const suffix = match[2] ?? "";
+    let raf = 0;
+    let done = false;
+    let started = false;
+    let start = 0;
+    const duration = 700;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !started) {
+            started = true;
+            start = performance.now();
+            raf = requestAnimationFrame(tick);
+            obs.disconnect();
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    function tick(t: number) {
+      if (done) return;
+      const progress = Math.min((t - start) / duration, 1);
+      // lock digits right-to-left as progress advances
+      const lockedFromRight = Math.floor(progress * number.length);
+      let out = "";
+      for (let i = 0; i < number.length; i++) {
+        const fromRight = number.length - 1 - i;
+        const ch = number[i];
+        if (fromRight < lockedFromRight || ch === ".") {
+          out += ch;
+        } else {
+          out += String.fromCharCode(48 + Math.floor(Math.random() * 10));
+        }
+      }
+      setDisplay(out + suffix);
+      if (progress < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        setDisplay(number + suffix);
+        done = true;
+      }
+    }
+
+    if (ref.current) obs.observe(ref.current);
     return () => {
-      controls.stop();
-      unsub();
+      done = true;
+      cancelAnimationFrame(raf);
+      obs.disconnect();
     };
-  }, [inView, mv, match]);
+  }, [match]);
 
-  if (!match) {
-    return <span ref={ref}>{value}</span>;
-  }
+  if (!match) return <span ref={ref}>{value}</span>;
+  return <span ref={ref}>{display}</span>;
+}
 
-  return (
-    <span ref={ref}>
-      {display}
-      {match[2]}
-    </span>
-  );
+function scrambleDigits(s: string): string {
+  return s
+    .split("")
+    .map((c) =>
+      c === "."
+        ? "."
+        : String.fromCharCode(48 + Math.floor(Math.random() * 10))
+    )
+    .join("");
 }
