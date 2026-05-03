@@ -79,7 +79,6 @@ export const technology = {
     "Arduino",
     "Raspberry Pi",
     "WPILib",
-    "Phoenix 6",
   ],
 };
 

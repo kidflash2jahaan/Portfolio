@@ -91,6 +91,18 @@ export default function GlassCard({
         className="pointer-events-none absolute inset-0"
       />
 
+      {/* aurora outer glow — only visible on hover */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-[2px] rounded-[inherit] opacity-0 group-hover:opacity-100 [.peer:hover_&]:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "conic-gradient(from 120deg, var(--aurora-1), var(--aurora-2), var(--aurora-3), var(--aurora-4), var(--aurora-1))",
+          filter: "blur(14px)",
+          zIndex: -1,
+        }}
+      />
+
       {/* subtle inner ring */}
       <div
         aria-hidden

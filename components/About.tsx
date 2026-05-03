@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { profile, stats } from "@/lib/data";
 import Counter from "./Counter";
 import GlassCard from "./GlassCard";
+import OrbitTags from "./OrbitTags";
 import ParallaxText from "./ParallaxText";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
@@ -34,27 +35,29 @@ export default function About() {
               <GlassCard variant="strong" tilt gleam className="p-8 md:p-12">
                 <div className="flex flex-col gap-8">
                   <div className="flex items-center gap-3">
-                    <motion.div
-                      whileHover={{ rotate: 360, scale: 1.08 }}
-                      transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="relative h-12 w-12 rounded-full overflow-hidden border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,1)]"
-                    >
+                    <OrbitTags tags={["FRC LEAD", "MTAC L9", "OCSEF"]}>
                       <motion.div
-                        animate={{
-                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                        }}
-                        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(135deg, var(--aurora-1), var(--aurora-2), var(--aurora-4), var(--aurora-1))",
-                          backgroundSize: "300% 300%",
-                        }}
-                        className="absolute inset-0"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center font-display text-base font-semibold text-ink/80">
-                        JP
-                      </div>
-                    </motion.div>
+                        whileHover={{ rotate: 360, scale: 1.08 }}
+                        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative h-12 w-12 rounded-full overflow-hidden border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,1)]"
+                      >
+                        <motion.div
+                          animate={{
+                            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                          }}
+                          transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(135deg, var(--aurora-1), var(--aurora-2), var(--aurora-4), var(--aurora-1))",
+                            backgroundSize: "300% 300%",
+                          }}
+                          className="absolute inset-0"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center font-display text-base font-semibold text-ink/80">
+                          JP
+                        </div>
+                      </motion.div>
+                    </OrbitTags>
                     <div className="flex flex-col">
                       <span className="font-display text-lg font-medium text-ink">
                         Jahaan Pardhanani

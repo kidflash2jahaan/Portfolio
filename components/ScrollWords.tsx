@@ -31,8 +31,12 @@ export default function ScrollWords({
   return (
     <p ref={ref} className={className}>
       {words.map((w, i) => {
-        const start = i / total;
-        const end = start + 1.6 / total; // slight overlap between words
+        // distribute ranges so the LAST word ends exactly at scroll-progress 1.
+        // window covers a slight overlap; stride spaces them evenly across [0, 1-window].
+        const window = Math.min(1.6 / total, 0.5);
+        const stride = total > 1 ? (1 - window) / (total - 1) : 0;
+        const start = i * stride;
+        const end = Math.min(start + window, 1);
         return <Word key={i} text={w} range={[start, end]} progress={scrollYProgress} />;
       })}
     </p>
