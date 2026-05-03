@@ -80,6 +80,17 @@ export default function GlassCard({
         className="pointer-events-none absolute inset-0 mix-blend-overlay"
       />
 
+      {/* secondary hover spotlight — softer, tinted, only visible mid-card */}
+      <motion.div
+        aria-hidden
+        style={{
+          background: `radial-gradient(220px circle at var(--lx) var(--ly), rgba(255,214,231,0.25), transparent 60%)`,
+          ["--lx" as string]: lightX,
+          ["--ly" as string]: lightY,
+        }}
+        className="pointer-events-none absolute inset-0"
+      />
+
       {/* subtle inner ring */}
       <div
         aria-hidden
