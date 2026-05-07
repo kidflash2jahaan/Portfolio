@@ -2,14 +2,11 @@ import About from "@/components/About";
 import Awards from "@/components/Awards";
 import Background from "@/components/Background";
 import Cursor from "@/components/Cursor";
-import CursorTrail from "@/components/CursorTrail";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Music from "@/components/Music";
 import Nav from "@/components/Nav";
 import PageCurtain from "@/components/PageCurtain";
-import Particles from "@/components/Particles";
-import PulseRings from "@/components/PulseRings";
 import Ripples from "@/components/Ripples";
 import ScrollHueLayer from "@/components/ScrollHueLayer";
 import ScrollReadout from "@/components/ScrollReadout";
@@ -23,9 +20,6 @@ export default function Home() {
       <PageCurtain />
       <Background />
       <ScrollHueLayer />
-      <PulseRings />
-      <Particles />
-      <CursorTrail />
       <Cursor />
       <Ripples />
       <Nav />

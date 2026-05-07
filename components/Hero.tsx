@@ -98,6 +98,41 @@ export default function Hero() {
           <Pill>MTAC L9 — State Honors</Pill>
         </motion.div>
 
+        {/* download CV */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.95 }}
+          className="mt-6"
+        >
+          <Magnetic strength={0.32} range={140}>
+            <a
+              href={profile.resume}
+              download="Jahaan-Pardhanani-CV.pdf"
+              data-cursor="cta"
+              data-cursor-label="Download"
+              className="group inline-flex items-center gap-2 rounded-full bg-ink text-white px-5 py-2.5 text-[13px] font-medium hover:bg-ink-soft transition-colors"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M7 2.5v7M3.5 6L7 9.5L10.5 6M2.5 11.5h9"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Download CV (PDF)
+            </a>
+          </Magnetic>
+        </motion.div>
+
         {/* scroll prompt */}
         <motion.div
           initial={{ opacity: 0 }}
